@@ -13,27 +13,19 @@
     body {
       margin: 0;
       font-family: 'Montserrat', sans-serif;
-      background-color: #fff;
+      background-color: #000; /* фон всего сайта — чёрный */
       color: #111;
     }
 
     header {
-      background-color: #fff;
-      color: #000;
+      background-color: #fff; /* хэдер — белый */
       text-align: center;
       padding: 20px;
     }
 
     .logo {
-      width: 240px; /* увеличено в 3 раза */
+      width: 240px; /* увеличен в 3 раза */
       height: auto;
-      margin-bottom: 10px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 24px; /* уменьшено */
-      color: #e60000;
     }
 
     .container {
@@ -46,12 +38,12 @@
       font-size: 16px;
       margin-bottom: 30px;
       text-align: center;
-      color: #000;
+      color: #fff; /* текст — белый */
     }
 
     .form {
-      background: #000;
-      color: #fff;
+      background: #fff; /* форма — белая */
+      color: #000;
       border: 2px solid #e60000;
       padding: 25px;
       border-radius: 10px;
@@ -61,7 +53,7 @@
       display: block;
       margin-top: 15px;
       font-weight: 600;
-      color: #fff;
+      color: #000;
     }
 
     input, select, textarea {
@@ -124,10 +116,6 @@
     }
 
     @media (max-width: 600px) {
-      h1 {
-        font-size: 20px;
-      }
-
       .logo {
         width: 180px;
       }
@@ -142,11 +130,13 @@
 
   <header>
     <img src="logo.png" alt="Логотип" class="logo" />
-    <h1>LONDON KHUJAND</h1>
+    <!-- Заголовок удалён -->
   </header>
 
   <main class="container">
-    <p class="subtitle">У вас есть вопрос или хотите записаться на курс? Можете заполнить форму и наш администратор свяжется с вами за кротчайшее время.</p>
+    <p class="subtitle">
+      У вас есть вопрос или хотите записаться на курс? Можете заполнить форму и наш администратор свяжется с вами за кротчайшее время.
+    </p>
 
     <form class="form" id="tgForm">
       <label for="name">Введите имя:</label>
@@ -195,7 +185,7 @@
       const TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
       const CHAT_ID = 'YOUR_CHAT_ID';
 
-      // 🔖 Шаблон можно заменить позже:
+      // 🔖 Временный шаблон:
       const message = `📩 Новая заявка с сайта LONDON KHUJAND:\n\n👤 Имя: ${name}\n🎂 Возраст: ${age}\n📞 Телефон: ${phone}\n📚 Курс: ${course}\n📝 Вопрос: ${question || 'не указан'}`;
 
       fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
