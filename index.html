@@ -1,173 +1,159 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LONDON KHUJAND</title>
-  <style>
-    body {
-      background-color: white;
-      color: black;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      text-align: center;
-      padding: 30px 20px 10px;
-    }
-    header h1 {
-      font-size: 48px;
-      color: red;
-      margin: 0;
-    }
-    header h2 {
-      font-size: 18px;
-      color: black;
-      margin: 5px 0 20px;
-    }
-    .description {
-      text-align: center;
-      font-size: 16px;
-      margin: 0 20px 30px;
-    }
-    form {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: white;
-      border-radius: 8px;
-    }
-    label {
-      display: block;
-      margin: 15px 0 5px;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-    button {
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-    .checkbox-container {
-      display: flex;
-      align-items: center;
-      margin: 10px 0 20px;
-    }
-    .checkbox-container input {
-      margin-right: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LONDON KHUJAND</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: white;
+        }
+        header {
+            text-align: center;
+            padding: 40px 20px 10px;
+        }
+        header h1 {
+            color: red;
+            font-size: 64px;
+            margin: 0;
+        }
+        header h2 {
+            color: black;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .description {
+            text-align: center;
+            font-size: 16px;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        input, select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        button {
+            background-color: red;
+            color: white;
+            border: none;
+            margin-top: 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .consent {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .consent input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>LONDON</h1>
-    <h2>ОБРАЗОВАТЕЛЬНЫЙ ЦЕНТР</h2>
-  </header>
+    <header>
+        <h1>LONDON</h1>
+        <h2>ОБРАЗОВАТЕЛЬНЫЙ ЦЕНТР</h2>
+    </header>
 
-  <p class="description">У вас есть вопрос или хотите записаться на курс? Можете заполнить форму и наш администратор свяжется с вами за кротчайшее время.</p>
-
-  <form id="tgForm">
-    <label for="name">Введите имя:</label>
-    <input type="text" id="name" name="name" required>
-
-    <label for="age">Введите возраст:</label>
-    <input type="number" id="age" name="age" required>
-
-    <label for="phone">Введите номер телефона:</label>
-    <input type="tel" id="phone" name="phone" required>
-
-    <label for="course">Выберите курс:</label>
-    <select id="course" name="course" required>
-      <option value="Английский язык">Английский язык</option>
-      <option value="Немецкий язык">Немецкий язык</option>
-      <option value="Китайский язык">Китайский язык</option>
-      <option value="Математика">Математика</option>
-    </select>
-
-    <label for="question">Напишите свой вопрос (необязательно):</label>
-    <textarea id="question" name="question" rows="4"></textarea>
-
-    <div class="checkbox-container">
-      <input type="checkbox" id="consent">
-      <label for="consent">Отправляя вы соглашаетесь на обработку ваших данных.</label>
+    <div class="description">
+        У вас есть вопрос или хотите записаться на курс? Можете заполнить форму и наш администратор свяжется с вами за кротчайшее время.
     </div>
 
-    <button type="submit" id="submitBtn" disabled>Отправить</button>
-  </form>
+    <form id="contactForm">
+        <label for="name">Введите имя:</label>
+        <input type="text" id="name" name="name" required>
 
-  <script>
-    const form = document.getElementById('tgForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const consentCheckbox = document.getElementById('consent');
+        <label for="age">Введите возраст:</label>
+        <input type="number" id="age" name="age" required>
 
-    consentCheckbox.addEventListener('change', function () {
-      submitBtn.disabled = !this.checked;
-    });
+        <label for="phone">Введите номер телефона:</label>
+        <input type="tel" id="phone" name="phone" required pattern="\d*">
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
+        <label for="course">Выберите курс:</label>
+        <select id="course" name="course" required>
+            <option value="Английский язык">Английский язык</option>
+            <option value="Немецкий язык">Немецкий язык</option>
+            <option value="Китайский язык">Китайский язык</option>
+            <option value="Математика">Математика</option>
+        </select>
 
-      const name = document.getElementById('name').value;
-      const age = document.getElementById('age').value;
-      const phone = document.getElementById('phone').value;
-      const course = document.getElementById('course').value;
-      const question = document.getElementById('question').value || '—';
+        <label for="question">Напишите свой вопрос (необязательно):</label>
+        <textarea id="question" name="question"></textarea>
 
-      const now = new Date();
-      const date = now.toLocaleDateString('ru-RU', { timeZone: 'Asia/Dushanbe' });
-      const time = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Dushanbe' });
+        <div class="consent">
+            <input type="checkbox" id="consentCheckbox">
+            <label for="consentCheckbox">Отправляя вы соглашаетесь на обработку ваших данных.</label>
+        </div>
 
-      const TOKEN = 'YOUR_BOT_TOKEN';
-      const CHAT_ID = 'YOUR_CHAT_ID';
+        <button type="submit" id="submitBtn" disabled>Отправить</button>
+    </form>
 
-      const message =
-`🔊 Новая заявка
-👤 ФИО: ${name}
-ℹ️ Возраст: ${age}
-📞 Телефон: ${phone}
-🧮 Курс: ${course}
-❓ Вопрос:
-${question}
+    <script>
+        const form = document.getElementById("contactForm");
+        const consentCheckbox = document.getElementById("consentCheckbox");
+        const submitBtn = document.getElementById("submitBtn");
 
-🗓️ ${date}
-⏳ ${time}`;
+        consentCheckbox.addEventListener("change", function () {
+            submitBtn.disabled = !this.checked;
+        });
 
-      fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: message
-        })
-      })
-      .then(res => {
-        if (res.ok) {
-          alert('Заявка успешно отправлена!');
-          form.reset();
-          submitBtn.disabled = true;
-        } else {
-          alert('Ошибка при отправке. Попробуйте позже.');
-        }
-      })
-      .catch(() => {
-        alert('Ошибка сети. Проверьте подключение.');
-      });
-    });
-  </script>
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const phone = document.getElementById("phone").value;
+            const course = document.getElementById("course").value;
+            const question = document.getElementById("question").value;
+
+            const now = new Date();
+            const date = now.toLocaleDateString('ru-RU');
+            const time = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+            const message = `🔊 Новая заявка\n👤 ФИО: ${name}\nℹ️ Возраст: ${age}\n📞 Телефон: ${phone}\n🧮 Курс: ${course}\n❓ Вопрос:\n${question}\n\n🗓️ ${date}\n⏳ ${time}`;
+
+            const token = 'YOUR_BOT_TOKEN';
+            const chat_id = 'YOUR_CHAT_ID';
+
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chat_id, text: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Заявка успешно отправлена!");
+                form.reset();
+                submitBtn.disabled = true;
+            })
+            .catch(error => {
+                alert("Ошибка при отправке заявки. Попробуйте снова.");
+                console.error("Ошибка:", error);
+            });
+        });
+    </script>
 </body>
 </html>
