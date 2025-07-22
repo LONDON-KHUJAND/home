@@ -7,7 +7,7 @@
   <style>
     body {
       margin: 0;
-      background-color: #000;
+      background-color: #fff;
       font-family: 'Segoe UI', sans-serif;
       color: #000;
     }
@@ -18,17 +18,24 @@
       padding: 20px;
       background-color: #fff;
       border-radius: 12px;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
     }
 
     .logo-wrapper {
       text-align: center;
-      margin-top: 40px;
+      margin-bottom: 20px;
     }
 
-    .logo-wrapper img {
-      width: 320px;
-      height: auto;
+    .logo-wrapper h1 {
+      color: #e50914;
+      font-size: 48px;
+      margin: 0;
+    }
+
+    .logo-wrapper h2 {
+      color: #000;
+      font-size: 18px;
+      margin-top: 8px;
+      font-weight: 400;
     }
 
     label {
@@ -50,27 +57,6 @@
       border-radius: 6px;
       font-size: 15px;
       box-sizing: border-box;
-    }
-
-    .phone-wrapper {
-      display: flex;
-      align-items: center;
-    }
-
-    .prefix {
-      background-color: #eee;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-right: none;
-      border-radius: 6px 0 0 6px;
-      font-size: 15px;
-      color: #333;
-    }
-
-    .phone-wrapper input {
-      flex: 1;
-      border-radius: 0 6px 6px 0;
-      border-left: none;
     }
 
     textarea {
@@ -95,106 +81,55 @@
       background-color: #b20710;
     }
 
-    @media (max-width: 600px) {
-      .logo-wrapper img {
-        width: 180px;
-      }
+    .lang-switch {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 14px;
+    }
 
-      .container {
-        margin: 30px 15px;
-      }
+    .lang-switch span {
+      cursor: pointer;
+      margin: 0 5px;
     }
   </style>
 </head>
 <body>
-
-  <div class="logo-wrapper">
-    <img src="logo.png" alt="LONDON KHUJAND Logo" />
+  <div class="lang-switch">
+    <span id="ru">RU 🇷🇺</span> | <span id="tj">TAJ 🇹🇯</span>
   </div>
-
+  <div class="logo-wrapper">
+    <h1>LONDON</h1>
+    <h2>ОБРАЗОВАТЕЛЬНЫЙ ЦЕНТР</h2>
+  </div>
   <div class="container">
-    <form id="tgForm">
+    <form id="contact-form">
       <label for="name">Введите имя:</label>
       <input type="text" id="name" name="name" required />
 
       <label for="age">Введите возраст:</label>
-      <input type="number" id="age" name="age" min="1" max="120" required />
+      <input type="number" id="age" name="age" required />
 
       <label for="phone">Введите номер телефона:</label>
-      <div class="phone-wrapper">
-        <span class="prefix">+992</span>
-        <input type="tel" id="phone" name="phone" required pattern="\\d*">
-
-      </div>
+      <input type="tel" id="phone" name="phone" required />
 
       <label for="course">Выберите курс:</label>
       <select id="course" name="course" required>
-        <option value="">-- Выберите --</option>
-        <option>Английский язык</option>
-        <option>Немецкий язык</option>
-        <option>Китайский язык</option>
-        <option>Математика</option>
+        <option value="">-- Выберите курс --</option>
+        <option value="Английский язык">Английский язык</option>
+        <option value="Немецкий язык">Немецкий язык</option>
+        <option value="Китайский язык">Китайский язык</option>
+        <option value="Математика">Математика</option>
       </select>
 
       <label for="question">Напишите свой вопрос (необязательно):</label>
-      <textarea id="question" name="question" rows="4" placeholder="Ваш вопрос..."></textarea>
+      <textarea id="question" name="question" rows="4"></textarea>
 
       <button type="submit">Отправить</button>
     </form>
   </div>
-
   <script>
-    document.getElementById('tgForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const name = document.getElementById('name').value.trim();
-      const age = document.getElementById('age').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const course = document.getElementById('course').value.trim();
-      const question = document.getElementById('question').value.trim() || '—';
-
-      // Дата и время по Душанбе
-      const now = new Date();
-      const date = now.toLocaleDateString('ru-RU', { timeZone: 'Asia/Dushanbe' });
-      const time = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Dushanbe' });
-
-      // ТВОЙ ТОКЕН И ID
-      const TOKEN = '7735304503:AAGrtC2W6lrlVe2bhbzIDBgvJC0kYSAYrTM';
-      const CHAT_ID = '7849292154';
-
-      const message =
-`🔊 Новая заявка
-👤 ФИО: ${name}
-ℹ️ Возраст: ${age}
-📞 Телефон: +992 ${phone}
-🧮 Курс: ${course}
-❓ Вопрос:
-${question}
-
-🗓️ ${date}
-⏳ ${time}`;
-
-      fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: message,
-        })
-      })
-      .then(res => {
-        if (res.ok) {
-          alert('Заявка успешно отправлена!');
-          document.getElementById('tgForm').reset();
-        } else {
-          alert('Ошибка при отправке. Попробуйте позже.');
-        }
-      })
-      .catch(() => {
-        alert('Ошибка сети. Проверьте подключение.');
-      });
-    });
+    // Языковое переключение будет добавлено позже
   </script>
-
 </body>
 </html>
