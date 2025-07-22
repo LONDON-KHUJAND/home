@@ -1,23 +1,167 @@
-<script>
-  document.getElementById('tgForm').addEventListener('submit', function (e) {
-    e.preventDefault();
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LONDON KHUJAND</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: 'Segoe UI', sans-serif;
+      color: #000;
+    }
 
-    const name = document.getElementById('name').value;
-    const age = document.getElementById('age').value;
-    const phone = document.getElementById('phone').value;
-    const course = document.getElementById('course').value;
-    const question = document.getElementById('question').value || '—';
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    }
 
-    // 📅 Дата и время по Душанбе (UTC+5)
-    const now = new Date();
-    const date = now.toLocaleDateString('ru-RU', { timeZone: 'Asia/Dushanbe' });
-    const time = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Dushanbe' });
+    .logo-wrapper {
+      text-align: center;
+      margin-top: 40px;
+    }
 
-    // 🔧 ЗАМЕНИ на свои данные:
-    const TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
-    const CHAT_ID = 'YOUR_CHAT_ID';
+    .logo-wrapper img {
+      width: 240px;
+      height: auto;
+    }
 
-    const message = 
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #111;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    .phone-wrapper {
+      display: flex;
+      align-items: center;
+    }
+
+    .prefix {
+      background-color: #eee;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-right: none;
+      border-radius: 6px 0 0 6px;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .phone-wrapper input {
+      flex: 1;
+      border-radius: 0 6px 6px 0;
+      border-left: none;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #e50914;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #b20710;
+    }
+
+    @media (max-width: 600px) {
+      .logo-wrapper img {
+        width: 180px;
+      }
+
+      .container {
+        margin: 30px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo-wrapper">
+    <img src="logo.png" alt="LONDON KHUJAND Logo" />
+  </div>
+
+  <div class="container">
+    <form id="tgForm">
+      <label for="name">Введите имя:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="age">Введите возраст:</label>
+      <input type="number" id="age" name="age" min="1" max="120" required />
+
+      <label for="phone">Введите номер телефона:</label>
+      <div class="phone-wrapper">
+        <span class="prefix">+992</span>
+        <input type="tel" id="phone" name="phone" pattern="\\d{9}" maxlength="9" minlength="9" required />
+      </div>
+
+      <label for="course">Выберите курс:</label>
+      <select id="course" name="course" required>
+        <option value="">-- Выберите --</option>
+        <option>Английский язык</option>
+        <option>Немецкий язык</option>
+        <option>Китайский язык</option>
+        <option>Математика</option>
+      </select>
+
+      <label for="question">Напишите свой вопрос (необязательно):</label>
+      <textarea id="question" name="question" rows="4" placeholder="Ваш вопрос..."></textarea>
+
+      <button type="submit">Отправить</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('tgForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const age = document.getElementById('age').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const course = document.getElementById('course').value.trim();
+      const question = document.getElementById('question').value.trim() || '—';
+
+      // Дата и время по Душанбе
+      const now = new Date();
+      const date = now.toLocaleDateString('ru-RU', { timeZone: 'Asia/Dushanbe' });
+      const time = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Dushanbe' });
+
+      // ТВОЙ ТОКЕН И ID
+      const TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
+      const CHAT_ID = 'YOUR_CHAT_ID';
+
+      const message =
 `🔊 Новая заявка
 👤 ФИО: ${name}
 ℹ️ Возраст: ${age}
@@ -29,24 +173,27 @@ ${question}
 🗓️ ${date}
 ⏳ ${time}`;
 
-    fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text: message,
+      fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: message,
+        })
       })
-    })
-    .then(res => {
-      if (res.ok) {
-        alert('Заявка успешно отправлена!');
-        document.getElementById('tgForm').reset();
-      } else {
-        alert('Ошибка при отправке. Попробуйте позже.');
-      }
-    })
-    .catch(() => {
-      alert('Ошибка сети. Проверьте подключение.');
+      .then(res => {
+        if (res.ok) {
+          alert('Заявка успешно отправлена!');
+          document.getElementById('tgForm').reset();
+        } else {
+          alert('Ошибка при отправке. Попробуйте позже.');
+        }
+      })
+      .catch(() => {
+        alert('Ошибка сети. Проверьте подключение.');
+      });
     });
-  });
-</script>
+  </script>
+
+</body>
+</html>
