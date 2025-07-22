@@ -22,7 +22,7 @@
 
     .logo-wrapper {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .logo-wrapper h1 {
@@ -36,6 +36,13 @@
       font-size: 18px;
       margin-top: 8px;
       font-weight: 400;
+    }
+
+    .description {
+      text-align: center;
+      margin: 20px auto;
+      max-width: 600px;
+      font-size: 16px;
     }
 
     label {
@@ -87,6 +94,11 @@
     <h1>LONDON</h1>
     <h2>ОБРАЗОВАТЕЛЬНЫЙ ЦЕНТР</h2>
   </div>
+
+  <div class="description">
+    У вас есть вопрос или хотите записаться на курс? Можете заполнить форму и наш администратор свяжется с вами за кротчайшее время.
+  </div>
+
   <div class="container">
     <form id="contact-form">
       <label for="name">Введите имя:</label>
@@ -113,51 +125,51 @@
       <button type="submit">Отправить</button>
     </form>
   </div>
+
   <script>
-    document.getElementById("contact-form").addEventListener("submit", function (e) {
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const name = document.getElementById("name").value;
-      const age = document.getElementById("age").value;
-      const phone = document.getElementById("phone").value;
-      const course = document.getElementById("course").value;
-      const question = document.getElementById("question").value;
+      const name = document.getElementById('name').value;
+      const age = document.getElementById('age').value;
+      const phone = document.getElementById('phone').value;
+      const course = document.getElementById('course').value;
+      const question = document.getElementById('question').value;
 
-      const now = new Date();
-      const date = now.toLocaleDateString("ru-RU");
-      const time = now.toLocaleTimeString("ru-RU", { hour: '2-digit', minute: '2-digit' });
+      const date = new Date();
+      const formattedDate = date.toLocaleDateString('ru-RU');
+      const formattedTime = date.toLocaleTimeString('ru-RU', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: 'Asia/Dushanbe'
+      });
 
-      const message = `🔊 Новая заявка\n` +
-        `👤 ФИО: ${name}\n` +
-        `ℹ️ Возраст: ${age}\n` +
-        `📞 Телефон: ${phone}\n` +
-        `🧮 Курс: ${course}\n` +
-        `❓ Вопрос:\n${question || "-"}\n\n` +
-        `🗓️ ${date}\n` +
-        `⏳ ${time}`;
+      const message = `🔊 Новая заявка\n👤 ФИО: ${name}\nℹ️ Возраст: ${age}\n📞 Телефон: +992 ${phone}\n🧮 Курс: ${course}\n❓ Вопрос:\n${question || '-'}\n\n🗓️ ${formattedDate}\n⏳ ${formattedTime}`;
 
-      const token = "YOUR_BOT_TOKEN";
-      const chatId = "YOUR_CHAT_ID";
-      const url = `https://api.telegram.org/bot${token}/sendMessage`;
+      const token = 'YOUR_BOT_TOKEN';
+      const chatId = 'YOUR_CHAT_ID';
 
-      fetch(url, {
-        method: "POST",
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           chat_id: chatId,
-          text: message,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          alert("Заявка успешно отправлена!");
-          document.getElementById("contact-form").reset();
+          text: message
         })
-        .catch((error) => {
-          alert("Ошибка при отправке заявки. Пожалуйста, попробуйте позже.");
-          console.error("Error:", error);
+      })
+        .then(response => {
+          if (response.ok) {
+            alert('Заявка успешно отправлена!');
+            document.getElementById('contact-form').reset();
+          } else {
+            alert('Ошибка при отправке. Попробуйте ещё раз.');
+          }
+        })
+        .catch(error => {
+          alert('Ошибка при подключении к Telegram.');
         });
     });
   </script>
