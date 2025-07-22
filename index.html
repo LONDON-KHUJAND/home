@@ -6,16 +6,20 @@
   <title>LONDON KHUJAND</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Montserrat', sans-serif;
       margin: 0;
-      background-color: #f9f9f9;
-      color: #333;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #fff;
+      color: #111;
     }
 
     header {
       background-color: #000;
-      color: white;
+      color: #fff;
       text-align: center;
       padding: 20px;
     }
@@ -29,11 +33,12 @@
     h1 {
       margin: 0;
       font-size: 32px;
+      color: #e60000;
     }
 
     .container {
       max-width: 600px;
-      margin: 40px auto;
+      margin: 30px auto;
       padding: 0 20px;
     }
 
@@ -41,26 +46,24 @@
       font-size: 16px;
       margin-bottom: 30px;
       text-align: center;
+      color: #000;
     }
 
     .form {
-      background: white;
+      background: #fff;
+      border: 2px solid #e60000;
       padding: 25px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     label {
       display: block;
       margin-top: 15px;
       font-weight: 600;
+      color: #000;
     }
 
-    input[type="text"],
-    input[type="number"],
-    input[type="tel"],
-    select,
-    textarea {
+    input, select, textarea {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -68,7 +71,6 @@
       border-radius: 5px;
       font-family: inherit;
       font-size: 15px;
-      box-sizing: border-box;
     }
 
     .phone-wrapper {
@@ -97,17 +99,18 @@
     button[type="submit"] {
       margin-top: 20px;
       padding: 12px;
-      background-color: #000;
+      background-color: #e60000;
       color: white;
       border: none;
       border-radius: 5px;
       font-size: 16px;
       cursor: pointer;
       width: 100%;
+      transition: background 0.3s;
     }
 
-    button[type="submit"]:hover {
-      background-color: #444;
+    button:hover {
+      background-color: #b30000;
     }
 
     footer {
@@ -116,6 +119,16 @@
       text-align: center;
       padding: 15px 0;
       margin-top: 50px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 26px;
+      }
+
+      .form {
+        padding: 15px;
+      }
     }
   </style>
 </head>
@@ -129,7 +142,7 @@
   <main class="container">
     <p class="subtitle">У вас есть вопрос или хотите записаться на курс? Можете заполнить форму и наш администратор свяжется с вами за кротчайшее время.</p>
 
-    <form class="form">
+    <form class="form" id="tgForm">
       <label for="name">Введите имя:</label>
       <input type="text" id="name" name="name" required />
 
@@ -161,6 +174,43 @@
   <footer>
     <p>&copy; 2025 LONDON KHUJAND. Все права защищены.</p>
   </footer>
+
+  <script>
+    document.getElementById('tgForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const age = document.getElementById('age').value;
+      const phone = '+992' + document.getElementById('phone').value;
+      const course = document.getElementById('course').value;
+      const question = document.getElementById('question').value;
+
+      // 🔧 Замени ниже на свои данные:
+      const TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
+      const CHAT_ID = 'YOUR_CHAT_ID';
+
+      // 🔖 Временный шаблон (позже подставим твой):
+      const message = `📩 Новая заявка с сайта LONDON KHUJAND:\n\n👤 Имя: ${name}\n🎂 Возраст: ${age}\n📞 Телефон: ${phone}\n📚 Курс: ${course}\n📝 Вопрос: ${question || 'не указан'}`;
+
+      fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: message,
+        })
+      }).then(res => {
+        if (res.ok) {
+          alert('Заявка отправлена!');
+          document.getElementById('tgForm').reset();
+        } else {
+          alert('Ошибка при отправке. Попробуйте позже.');
+        }
+      }).catch(() => {
+        alert('Сервер недоступен. Проверьте подключение.');
+      });
+    });
+  </script>
 
 </body>
 </html>
