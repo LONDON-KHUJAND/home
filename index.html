@@ -18,21 +18,21 @@
     }
 
     header {
-      background-color: #000;
-      color: #fff;
+      background-color: #fff;
+      color: #000;
       text-align: center;
       padding: 20px;
     }
 
     .logo {
-      width: 80px;
+      width: 240px; /* увеличено в 3 раза */
       height: auto;
       margin-bottom: 10px;
     }
 
     h1 {
       margin: 0;
-      font-size: 32px;
+      font-size: 24px; /* уменьшено */
       color: #e60000;
     }
 
@@ -50,7 +50,8 @@
     }
 
     .form {
-      background: #fff;
+      background: #000;
+      color: #fff;
       border: 2px solid #e60000;
       padding: 25px;
       border-radius: 10px;
@@ -60,7 +61,7 @@
       display: block;
       margin-top: 15px;
       font-weight: 600;
-      color: #000;
+      color: #fff;
     }
 
     input, select, textarea {
@@ -84,6 +85,7 @@
       border: 1px solid #ccc;
       border-radius: 5px 0 0 5px;
       border-right: none;
+      color: #000;
     }
 
     .phone-wrapper input[type="tel"] {
@@ -123,7 +125,11 @@
 
     @media (max-width: 600px) {
       h1 {
-        font-size: 26px;
+        font-size: 20px;
+      }
+
+      .logo {
+        width: 180px;
       }
 
       .form {
@@ -189,7 +195,7 @@
       const TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
       const CHAT_ID = 'YOUR_CHAT_ID';
 
-      // 🔖 Временный шаблон (позже подставим твой):
+      // 🔖 Шаблон можно заменить позже:
       const message = `📩 Новая заявка с сайта LONDON KHUJAND:\n\n👤 Имя: ${name}\n🎂 Возраст: ${age}\n📞 Телефон: ${phone}\n📚 Курс: ${course}\n📝 Вопрос: ${question || 'не указан'}`;
 
       fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
