@@ -1,212 +1,52 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LONDON KHUJAND</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<script>
+  document.getElementById('tgForm').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background-color: #000; /* фон всего сайта — чёрный */
-      color: #111;
-    }
+    const name = document.getElementById('name').value;
+    const age = document.getElementById('age').value;
+    const phone = document.getElementById('phone').value;
+    const course = document.getElementById('course').value;
+    const question = document.getElementById('question').value || '—';
 
-    header {
-      background-color: #fff; /* хэдер — белый */
-      text-align: center;
-      padding: 20px;
-    }
+    // 📅 Дата и время по Душанбе (UTC+5)
+    const now = new Date();
+    const date = now.toLocaleDateString('ru-RU', { timeZone: 'Asia/Dushanbe' });
+    const time = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Dushanbe' });
 
-    .logo {
-      width: 240px; /* увеличен в 3 раза */
-      height: auto;
-    }
+    // 🔧 ЗАМЕНИ на свои данные:
+    const TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
+    const CHAT_ID = 'YOUR_CHAT_ID';
 
-    .container {
-      max-width: 600px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
+    const message = 
+`🔊 Новая заявка
+👤 ФИО: ${name}
+ℹ️ Возраст: ${age}
+📞 Телефон: +992 ${phone}
+🧮 Курс: ${course}
+❓ Вопрос:
+${question}
 
-    .subtitle {
-      font-size: 16px;
-      margin-bottom: 30px;
-      text-align: center;
-      color: #fff; /* текст — белый */
-    }
+🗓️ ${date}
+⏳ ${time}`;
 
-    .form {
-      background: #fff; /* форма — белая */
-      color: #000;
-      border: 2px solid #e60000;
-      padding: 25px;
-      border-radius: 10px;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: 600;
-      color: #000;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-family: inherit;
-      font-size: 15px;
-    }
-
-    .phone-wrapper {
-      display: flex;
-      align-items: center;
-    }
-
-    .prefix {
-      background-color: #eee;
-      padding: 10px 12px;
-      border: 1px solid #ccc;
-      border-radius: 5px 0 0 5px;
-      border-right: none;
-      color: #000;
-    }
-
-    .phone-wrapper input[type="tel"] {
-      border-radius: 0 5px 5px 0;
-      border-left: none;
-      flex-grow: 1;
-    }
-
-    textarea {
-      resize: vertical;
-    }
-
-    button[type="submit"] {
-      margin-top: 20px;
-      padding: 12px;
-      background-color: #e60000;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      width: 100%;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background-color: #b30000;
-    }
-
-    footer {
-      background-color: #000;
-      color: #fff;
-      text-align: center;
-      padding: 15px 0;
-      margin-top: 50px;
-    }
-
-    @media (max-width: 600px) {
-      .logo {
-        width: 180px;
+    fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: message,
+      })
+    })
+    .then(res => {
+      if (res.ok) {
+        alert('Заявка успешно отправлена!');
+        document.getElementById('tgForm').reset();
+      } else {
+        alert('Ошибка при отправке. Попробуйте позже.');
       }
-
-      .form {
-        padding: 15px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <img src="logo.png" alt="Логотип" class="logo" />
-    <!-- Заголовок удалён -->
-  </header>
-
-  <main class="container">
-    <p class="subtitle">
-      У вас есть вопрос или хотите записаться на курс? Можете заполнить форму и наш администратор свяжется с вами за кротчайшее время.
-    </p>
-
-    <form class="form" id="tgForm">
-      <label for="name">Введите имя:</label>
-      <input type="text" id="name" name="name" required />
-
-      <label for="age">Введите возраст:</label>
-      <input type="number" id="age" name="age" min="1" max="120" required />
-
-      <label for="phone">Введите номер телефона:</label>
-      <div class="phone-wrapper">
-        <span class="prefix">+992</span>
-        <input type="tel" id="phone" name="phone" pattern="\\d{9}" maxlength="9" minlength="9" required />
-      </div>
-
-      <label for="course">Выберите курс:</label>
-      <select id="course" name="course" required>
-        <option value="">-- Выберите --</option>
-        <option>Английский язык</option>
-        <option>Немецкий язык</option>
-        <option>Китайский язык</option>
-        <option>Математика</option>
-      </select>
-
-      <label for="question">Напишите свой вопрос (необязательно):</label>
-      <textarea id="question" name="question" rows="4" placeholder="Ваш вопрос..."></textarea>
-
-      <button type="submit">Отправить</button>
-    </form>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 LONDON KHUJAND. Все права защищены.</p>
-  </footer>
-
-  <script>
-    document.getElementById('tgForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const name = document.getElementById('name').value;
-      const age = document.getElementById('age').value;
-      const phone = '+992' + document.getElementById('phone').value;
-      const course = document.getElementById('course').value;
-      const question = document.getElementById('question').value;
-
-      // 🔧 Замени ниже на свои данные:
-      const TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
-      const CHAT_ID = 'YOUR_CHAT_ID';
-
-      // 🔖 Временный шаблон:
-      const message = `📩 Новая заявка с сайта LONDON KHUJAND:\n\n👤 Имя: ${name}\n🎂 Возраст: ${age}\n📞 Телефон: ${phone}\n📚 Курс: ${course}\n📝 Вопрос: ${question || 'не указан'}`;
-
-      fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: message,
-        })
-      }).then(res => {
-        if (res.ok) {
-          alert('Заявка отправлена!');
-          document.getElementById('tgForm').reset();
-        } else {
-          alert('Ошибка при отправке. Попробуйте позже.');
-        }
-      }).catch(() => {
-        alert('Сервер недоступен. Проверьте подключение.');
-      });
+    })
+    .catch(() => {
+      alert('Ошибка сети. Проверьте подключение.');
     });
-  </script>
-
-</body>
-</html>
+  });
+</script>
